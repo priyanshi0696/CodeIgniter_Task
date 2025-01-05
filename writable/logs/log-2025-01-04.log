@@ -1,0 +1,10 @@
+CRITICAL - 2025-01-04 17:53:28 --> ArgumentCountError: Too few arguments to function App\Controllers\DashboardController::getDealer(), 0 passed in C:\xampp\htdocs\task\system\CodeIgniter.php on line 933 and exactly 1 expected
+[Method: GET, Route: get-dealer/2]
+in APPPATH\Controllers\DashboardController.php on line 141.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\DashboardController->getDealer()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\DashboardController))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\task\\public\\index.php')

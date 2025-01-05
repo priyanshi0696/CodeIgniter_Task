@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f1f8ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 450px;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #4a4a4a;
+        }
+
+        .form-control {
+            height: 45px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+            padding: 12px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ab7;
+            border-color: #357ab7;
+        }
+
+        .toast {
+            border-radius: 14px !important;
+        }
+
+        .toast-success {
+            background-color: #4CAF50 !important;
+        }
+
+        .toast-error {
+            background-color: #dc143c !important;
+        }
+
+        .toast-info {
+            background-color: #17a2b8 !important;
+        }
+
+        .toast-warning {
+            background-color: #ffc107 !important;
+        }
+
+        .toast-top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 30px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+
+        <form id="loginForm">
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+
+            <a href="/register"  class="text-primary">Register</a>
+        </form>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                positionClass: "toast-top-right",
+                preventDuplicates: true
+            };
+
+            // On form submit via AJAX
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+
+                // Clear previous Toastr messages
+                toastr.clear();
+
+                var email = $('#email').val();
+                var password = $('#password').val();
+
+                // Basic validation for email and password
+                if (!email) {
+                    toastr.error('Please enter your email.');
+                    return;
+                }
+                if (!password) {
+                    toastr.error('Please enter your password.');
+                    return;
+                }
+
+                var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!regex.test(email)) {
+                    toastr.error('Please enter a valid email address.');
+                    return;
+                }
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/login', // Adjust the URL to the correct endpoint
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="<?= csrf_token() ?>"]').val()
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            toastr.success('<i class="fas fa-check-circle"></i> ' + response.message);
+                            setTimeout(function () {
+                                window.location.href = '/dashboard'; // Redirect to the dashboard
+                            }, 2000);
+                        } else {
+                            // If message is a string, show it directly as an error toast
+                            if (typeof response.message === 'string') {
+                                toastr.error(response.message); // Show the error message as a toast
+                            } else {
+                                // If it's an object (for example, validation errors), iterate through it
+                                $.each(response.message, function (field, message) {
+                                    toastr.error(message); // Show each error message as a toast
+                                });
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error('An error occurred while processing your request. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

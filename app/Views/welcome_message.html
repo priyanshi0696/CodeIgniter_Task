@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <!-- Include FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Background and font settings */
+        body {
+            background-color: #f1f8ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Centered container */
+        .container {
+            margin-top: 50px;
+            max-width: 450px;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form title */
+        h2 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Button styling */
+        .btn {
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-register {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .btn-login {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-register:hover,
+        .btn-login:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-register:focus,
+        .btn-login:focus {
+            outline: none;
+        }
+
+        /* Toastr message styling with rounded corners */
+        .toast {
+            border-radius: 14px !important;
+        }
+
+        .toast-success {
+            background-color: #4CAF50 !important;
+        }
+
+        .toast-error {
+            background-color: #dc143c !important;
+        }
+
+        .toast-info {
+            background-color: #17a2b8 !important;
+        }
+
+        .toast-warning {
+            background-color: #ffc107 !important;
+        }
+
+        /* Toastr position adjustments */
+        .toast-top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 30px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Welcome to the Task</h2>
+        <p class="text-center">Please choose an option below:</p>
+
+        <!-- Link to Register Page with smooth button style -->
+        <a href="/register" class="btn btn-register">
+            <i class="fas fa-user-plus"></i> Register
+        </a>
+
+        <!-- Link to Login Page with smooth button style -->
+        <a href="/login" class="btn btn-login">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+
+    </div>
+
+    <!-- Include jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Toastr JS after jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Set Toastr options for close button, progress bar, and icons
+            toastr.options = {
+                closeButton: true,  // Show close button
+                progressBar: true,  // Show progress bar
+                timeOut: 5000,  // Toast disappears after 5 seconds
+                extendedTimeOut: 1000,  // Delay after mouse hovers over the toast
+                positionClass: "toast-top-right", // Position of toast
+                preventDuplicates: true // Prevent duplicate toasts
+            };
+        });
+    </script>
+
+</body>
+
+</html>

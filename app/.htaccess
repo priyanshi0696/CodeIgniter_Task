@@ -1,0 +1,25 @@
+<IfModule authz_core_module>
+	Require all denied
+</IfModule>
+<IfModule !authz_core_module>
+	Deny from all
+</IfModule>
+# Allow access to everything in the public directory
+<IfModule authz_core_module>
+    Require all granted
+</IfModule>
+<IfModule !authz_core_module>
+    Allow from all
+</IfModule>
+
+# Secure access to system/application directories (if needed)
+<FilesMatch "\.(php|htaccess)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Enable Clean URLs (No index.php in URL)
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
